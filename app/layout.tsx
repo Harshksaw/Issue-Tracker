@@ -5,7 +5,7 @@ import Navbar from './Navbar'
 import { Theme, ThemePanel } from '@radix-ui/themes';
 const inter = Inter({ subsets: ['latin'] })
 import '@radix-ui/themes/styles.css';
-import './theme-config.css'
+
 
 
 export const metadata: Metadata = {
