@@ -6,7 +6,9 @@ const page = () => {
   return (
     <div>
       <Button><Link href="/new">
-      </Link></Button>
+
+        Submit new
+      </Link> </Button>
       
     </div>
   )
