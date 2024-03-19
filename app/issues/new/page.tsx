@@ -7,13 +7,21 @@ import {Controller, useForm} from 'react-hook-form'
 import SimpleMDE from 'react-simplemde-editor';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import {zodResolver} from '@hookform/resolvers/zod'
+import {z} from 'zod'
+import { IssuesSchema } from '@/app/validationSchema';
+// interface IssueForm{
+//     title: string;
+//     description: string;
+// }->>> replaced by zod schema
 
-interface IssueForm{
-    title: string;
-    description: string;
-}
+type IssueForm = z.infer<typeof IssuesSchema>
+
+
 const NewIssuePage = () => {
-    const {register, control , handleSubmit} = useForm<IssueForm>()
+    const {register, control , handleSubmit} = useForm<IssueForm>({
+      resolver: zodResolver(IssuesSchema)
+    })
     console.log(register('title'));
     const router = useRouter();
 
@@ -22,7 +30,8 @@ const NewIssuePage = () => {
 
   return (
     <div  className='max-w-xl space-y-1'>
-      {error && <Callout.Root color='red' className='mb-5'>
+      {error && 
+      <Callout.Root color='red' className='mb-5'>
         <Callout.Text>{error}</Callout.Text>
         </Callout.Root>}
 
