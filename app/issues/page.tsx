@@ -4,13 +4,15 @@ import React from 'react'
 import {zodResolver} from '@hookform/resolvers/zod'
 
 const page = () => {
-  
+
   return (
     <div>
       <Button><Link href="/new">
 
         Submit new
-      </Link> </Button>
+      </Link> 
+      
+      </Button>
       
     </div>
   )
