@@ -1,5 +1,5 @@
-import { Button, Table } from "@radix-ui/themes";
-import Link from "next/link";
+import { Button, Table , Link } from "@radix-ui/themes";
+
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import prisma from "@/prisma/client";
@@ -28,7 +28,12 @@ const page = async () => {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link href={`/issue/${issue.id}`}>{issue.title}</Link>
+
+                <Link href={`/issue/${issue.id}`} 
+                className="link " >
+                  {issue.title}
+                </Link>
+
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
                 </div>
