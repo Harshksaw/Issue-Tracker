@@ -1,22 +1,30 @@
-import { Button, Table } from "@radix-ui/themes";
-import Link from "next/link";
+'use client'
+import { , Table  } from "@radix-ui/themes";
+import dynamic from "next/dynamic";
+import { IssueStatusBadge } from "../components";
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import prisma from "@/prisma/client";
-import IssueStatusBadge from "../components/IssueStatusBadge";
-import delay from 'delay';
-import IssueActions from "./IssueActions";
 
-const page = async () => {
+import SimpleMDE from 'react-simplemde-editor';
+import { z } from "zod";
+import IssueActions from "./IssueActions";
+import Link from "next/link";
+
+
+const SimpleMDE = dynamic(()=> import('react-simplemde-editor')), { ssr : false });
+
+type IssueForm = z.infer<typeof IssueFormSchema>;
+
+const IssueForm = async () => {
   const issues = await prisma.issue.findMany();
 
-  await delay(3000);
+
   return (
     <div>
-      <IssueActions/>
+      <IssueActions />
 
       <Table.Root variant="surface">
-
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
@@ -29,7 +37,12 @@ const page = async () => {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                {issue.title}
+
+                <Link href={`/issues/${issue.id}`} 
+                className="link " >
+                  {issue.title}
+                </Link>
+
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
                 </div>
@@ -49,4 +62,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default IssueForm;

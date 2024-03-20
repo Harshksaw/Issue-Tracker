@@ -12,6 +12,7 @@ const loading = () => {
 
   return (
     <div>
+      
       <IssueActions/>
          <Table.Root>
         <Table.Header>
