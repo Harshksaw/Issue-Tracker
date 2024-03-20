@@ -1,16 +1,25 @@
-import { Button, Table , Link } from "@radix-ui/themes";
-
+'use client'
+import { , Table  } from "@radix-ui/themes";
+import dynamic from "next/dynamic";
+import { IssueStatusBadge } from "../components";
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import prisma from "@/prisma/client";
-import IssueStatusBadge from "../components/IssueStatusBadge";
-import delay from "delay";
-import IssueActions from "./IssueActions";
 
-const page = async () => {
+import SimpleMDE from 'react-simplemde-editor';
+import { z } from "zod";
+import IssueActions from "./IssueActions";
+import Link from "next/link";
+
+
+const SimpleMDE = dynamic(()=> import('react-simplemde-editor')), { ssr : false });
+
+type IssueForm = z.infer<typeof IssueFormSchema>;
+
+const IssueForm = async () => {
   const issues = await prisma.issue.findMany();
 
-  await delay(3000);
+
   return (
     <div>
       <IssueActions />
@@ -29,7 +38,7 @@ const page = async () => {
             <Table.Row key={issue.id}>
               <Table.Cell>
 
-                <Link href={`/issue/${issue.id}`} 
+                <Link href={`/issues/${issue.id}`} 
                 className="link " >
                   {issue.title}
                 </Link>
@@ -53,4 +62,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default IssueForm;

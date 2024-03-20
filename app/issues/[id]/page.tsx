@@ -5,19 +5,21 @@ import { notFound } from "next/navigation";
 
 import ReactMarkdown from "react-markdown";
 import Link from "@/app/components/Link";
-
+import delay from "delay";
 interface Props {
-  id: string;
+  params : {id: string};
 }
 
-const IssueDetailPage = async (params: Props) => {
-  if (typeof params?.id !== number) notFound();
+const IssueDetailPage = async ({params } : Props) => {
+  // if (typeof params?.id !== 'number') notFound();
 
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
 
   if (!issue) notFound();
+
+  await delay(3000);
   return (
     <div>
       <Heading>{issue.title}</Heading>
