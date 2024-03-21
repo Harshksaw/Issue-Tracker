@@ -11,7 +11,7 @@ const EditIssueButton = ({issueId}:Props) => {
     <div>
         <Button>
             <Pencil2Icon className="" />
-            <Link href={`/issues/${issueId}/edit`}>Edit Issues</Link>
+            <Link href={`/issues/edit/${issueId}`}>Edit Issues</Link>
         </Button>
       
     </div>
