@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import "easymde/dist/easymde.min.css";
 import {Controller, useForm} from 'react-hook-form'
 
-import SimpleMDE from 'react-simplemde-editor';
+
 import { useRouter } from 'next/navigation';
 import IssueActions from './IssueActions';
 
