@@ -12,11 +12,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { AiFillBug } from "react-icons/ai";
-
+import classnames from "classnames";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "../app/components";
 
 const Navbar = () => {
+  
   return (
     <div className="border-b mb-5 px-5 py-3 h-15">
       <Container>
@@ -84,7 +85,7 @@ const NavLink = () => {
           <Link
             href={link.href}
             className={
-              classnames({
+              classnames  ({
                 "nav-link": true,
                 "!text-zinc-900" : link.href === currentPath,
               })
