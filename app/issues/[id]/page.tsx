@@ -10,12 +10,17 @@ import { Pencil2Icon } from "@radix-ui/react-icons";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 import DeleteIssueButton from "./DeleteIssueButton";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOptions";
+import AssigneeSelect from "@/app/api/issues/[id]/AssigneeSelect";
 interface Props {
   params: { id: string };
 }
 
 const IssueDetailPage = async ({ params }: Props) => {
   // if (typeof params?.id !== 'number') notFound();
+
+  const session = await getServerSession(authOptions);
 
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
@@ -30,14 +35,16 @@ const IssueDetailPage = async ({ params }: Props) => {
         <IssueDetails issue={issue} />
       </Box>
 
+      {session &&
       <Box>
         <Flex direction="column" gap="4">
-
+        <AssigneeSelect issue={issue} />
        <EditIssueButton issueId={issue.id} />
 
        <DeleteIssueButton issueId={issue.id} />
         </Flex>
       </Box>
+}
     </Grid>
   );
 };

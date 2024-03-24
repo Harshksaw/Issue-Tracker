@@ -57,10 +57,15 @@ return NextResponse.json(updatedIssue, {status: 200})
 }
 
 export async function DELETE(request : NextRequest, {params}: {params: {id: string}}){
+    const session = getServerSession(authOptions)
+    if(!session){
+        return NextResponse.json({message: 'Unauthorized'}, {status: 401})
+    }
+
     const issue = await prisma.issue.findUnique({
         where: {id: parseInt(params.id)}
     })
-
+  
 
     if(!issue){
         return NextResponse.json({error: 'Issue not found'}, {status: 404})
