@@ -1,21 +1,65 @@
-import React from 'react'
+import prisma from "@/prisma/client";
+import { Table } from "@radix-ui/themes";
+import { IssueStatusBadge, Link } from "@/app/components";
+import IssueActions from "../IssueActions";
+import { Status } from "@prisma/client";
 
-import dynamic from 'next/dynamic'
-import IssueFormSkeleton from '../_components/IssueFormSkeleton'
-type Props = {}
-
-const IssueForm = dynamic(
-  ()=> import('@/app/issues/_components/IssueForm'),
-  {
-  ssr : false,
-  loading : () => <IssueFormSkeleton/>
+interface Props { 
+  searchParams: { status: Status }
 }
-)
 
-const NewIssuePage = (props: Props) => {
+const IssuesPage = async ({
+  searchParams,
+}: Props) => {
+
+
+
+  console.log(searchParams.status)
+
+  const statuses = Object.values(Status);
+
+  const status = statuses.includes(searchParams.status) ? searchParams.status : Status.OPEN;
+
+  const issues = await prisma.issue.findMany({
+    where:{
+      status : searchParams.status
+    }
+  });
+
   return (
-    <IssueForm/>
-  )
-}
+    <div>
+      <IssueActions />
+      <Table.Root variant='surface'>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className='hidden md:table-cell'>Status</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className='hidden md:table-cell'>Created</Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {issues.map(issue => (
+            <Table.Row key={issue.id}>
+              <Table.Cell>
+                <Link href={`/issues/${issue.id}`}>
+                  {issue.title}
+                </Link>
+                <div className='block md:hidden'>
+                  <IssueStatusBadge status={issue.status} />
+                </div>
+              </Table.Cell>
+              <Table.Cell className='hidden md:table-cell'>
+                <IssueStatusBadge status={issue.status} />
+              </Table.Cell>
+              <Table.Cell className='hidden md:table-cell'>{issue.createdAt.toDateString()}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
+    </div>
+  );
+};
 
-export default NewIssuePage
+export const dynamic = 'force-dynamic';
+
+export default IssuesPage;
