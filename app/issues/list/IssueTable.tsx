@@ -1,22 +1,21 @@
-import prisma from "@/prisma/client";
-import { Table } from "@radix-ui/themes";
-import { IssueStatusBadge, Link } from "@/app/components";
-
-import IssueActions from "../IssueActions";
-import { Issue, Status } from "@prisma/client";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
-import Pagination from "@/app/components/Pagination";
+import { IssueStatusBadge } from '@/app/components'
+import { ArrowUpIcon } from '@radix-ui/react-icons'
+import { Table } from '@radix-ui/themes'
+import Link from 'next/link'
+import React from 'react'
 import NextLink from 'next/link';
+import { Issue, Status } from '@prisma/client'
 
-interface Props {
-    searchParams: {
-      status: Status;
-      orderBy: keyof Issue;
-      page: string;
-    },
-    issues: Issue[]
-  }
-  
+export interface IssueQuery {
+  status: Status;
+  orderBy: keyof Issue;
+  page: string;
+}
+
+interface Props { 
+  searchParams: IssueQuery,
+  issues: Issue[]
+}
 
 
 
