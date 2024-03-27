@@ -3,6 +3,8 @@ import Pagination from "./components/Pagination";
 import prisma from "@/prisma/client";
 import IssueSummary from "./IssueSummary";
 import IssueChart from "./IssueChart";
+import { Flex, Grid } from "@radix-ui/themes";
+import LatestIssues from "./LatestIssues";
 
 export default function Home({searchParams}: {searchParams: {page?: string}}) {
 
@@ -17,11 +19,15 @@ export default function Home({searchParams}: {searchParams: {page?: string}}) {
   })
 
   return (
-    <div>
-      {/* <IssueSummary open={open} closed={closed} inProgress={inProgress} /> */}
-      <IssueChart open={open} closed={closed} inProgress={inProgress} />
-{/* <Pagination itemCount={100} pageSize={10} currentPage={parseInt(searchParams.page!) } /> */}
+    <Grid columns={{initial: "1", md:"2"}} gap="5">
+      <Flex direction="column" gap="4">
+        <IssueSummary open={open} closed={closed} inProgress={inProgress} />
+          <IssueChart open={open} closed={closed} inProgress={inProgress} />
+        </Flex>
+        <LatestIssues />
 
-    </div>
+
+
+    </Grid>
   );
 }

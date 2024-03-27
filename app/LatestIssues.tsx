@@ -4,7 +4,7 @@ import React from "react";
 import { IssueStatusBadge } from "./components";
 import Link from "next/link";
 
-const issues = async () => {
+const LatestIssues = async () => {
   const issues = await prisma.issue.findMany({
     orderBy: { createdAt: "desc" },
     take: 5,
@@ -41,4 +41,4 @@ const issues = async () => {
   );
 };
 
-export default issues;
+export default LatestIssues;
